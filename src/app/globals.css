@@ -20,7 +20,7 @@ input[type="text"]:disabled {
   @apply bg-gray-800 border-0 cursor-not-allowed  text-white;
 }
 label {
-  @apply text-gray-500 text-sm leading-tight;
+  @apply text-gray-700 text-sm leading-tight;
 }
 label + input {
   margin-top: -2px;
