@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import UserTabs from "../../components/layout/UserTabs";
+import EditableImage from "../../components/layout/EditableImage";
 
 export default function ProfilePage() {
   const session = useSession();
@@ -19,6 +20,7 @@ export default function ProfilePage() {
   const [country, setCountry] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [profileFetched, setProfileFetched] = useState(false);
   useEffect(() => {
     if (status === "authenticated") {
       setUserName(session.data.user.name);
@@ -31,11 +33,12 @@ export default function ProfilePage() {
           setCity(data.city);
           setCountry(data.country);
           setIsAdmin(data.admin);
+          setProfileFetched(true);
         });
       });
     }
   }, [session, status]);
-  if (status === "loading") {
+  if (status === "loading" || !profileFetched) {
     return "Loading...";
   }
   if (status === "unauthenticated") {
@@ -79,35 +82,7 @@ export default function ProfilePage() {
       // { position: "top-right" }
     );
   }
-  async function handelFileChange(e) {
-    const files = e.target.files;
-    if (files?.length === 1) {
-      const data = new FormData();
-      data.set("file", files[0]);
 
-      const uploadPromise = fetch("/api/upload", {
-        method: "POST",
-        body: data,
-      }).then((res) => {
-        if (res.ok) {
-          return res.json().then((link) => {
-            setImage(link);
-          });
-        }
-        throw new Error("Something went wrong");
-      });
-
-      await toast.promise(
-        uploadPromise,
-        {
-          loading: <b>Uploading...</b>,
-          success: <b>Upload Complete!</b>,
-          error: "Error",
-        }
-        // { position: "top-right" }
-      );
-    }
-  }
   return (
     <section className="mt-8">
       <UserTabs isAdmin={isAdmin} />
@@ -116,25 +91,7 @@ export default function ProfilePage() {
         <div className="flex gap-3  ">
           <div>
             <div className=" p-2 rounded-lg relative max-w-[120px]">
-              {image && (
-                <Image
-                  src={image}
-                  width={250}
-                  height={250}
-                  alt="profile-image"
-                  className="rounded-lg w-full h-full mb-1"
-                />
-              )}
-              <label>
-                <input
-                  type="file"
-                  className="hidden"
-                  onChange={handelFileChange}
-                />
-                <span className="block border text-black  border-gray-200 rounded-lg p-1 text-center cursor-pointer">
-                  Edit
-                </span>
-              </label>
+              <EditableImage link={image} setLink={setImage} />
             </div>
           </div>
           <form className="grow" onSubmit={handelProfileInfoUpdate}>

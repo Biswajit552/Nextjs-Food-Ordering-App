@@ -4,7 +4,9 @@ import Link from "next/link";
 
 export default function Header() {
   const session = useSession();
+  // console.log(session);
   const status = session.status;
+  // console.log(status);
   const userData = session.data?.user;
   let userName = userData?.name || userData?.email;
   if (userName && userName.includes(" ")) {
