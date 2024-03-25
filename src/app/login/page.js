@@ -8,10 +8,16 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [loginInProgress, setLoginInProgress] = useState(false);
 
-  async function handleFormSubmit(e) {
-    e.preventDefault();
+  async function handleFormSubmit(ev) {
+    ev.preventDefault();
     setLoginInProgress(true);
-    await signIn("credentials", { email, password, callbackUrl: "/" });
+
+    await signIn("credentials", {
+      email,
+      password,
+      callbackUrl: "/",
+    });
+
     setLoginInProgress(false);
   }
   return (
@@ -24,7 +30,7 @@ export default function LoginPage() {
           placeholder="email"
           value={email}
           disabled={loginInProgress}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(ev) => setEmail(ev.target.value)}
         />
         <input
           type="password"
@@ -32,7 +38,7 @@ export default function LoginPage() {
           placeholder="password"
           value={password}
           disabled={loginInProgress}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(ev) => setPassword(ev.target.value)}
         />
         <button disabled={loginInProgress} type="submit">
           Login

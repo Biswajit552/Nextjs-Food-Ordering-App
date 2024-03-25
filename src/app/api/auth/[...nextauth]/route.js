@@ -2,12 +2,13 @@ import * as mongoose from "mongoose";
 import NextAuth, { getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
+// import { MongoDBAdapter } from "@auth/mongodb-adapter";
 
 import { User } from "../../../../models/user";
 import clientPromise from "../../../../libs/mongoConnect";
 import bcrypt from "bcrypt";
 import { UserInfo } from "../../../../models/UserInfo";
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
 export const authOptions = {
   secret: process.env.SECRET,
   adapter: MongoDBAdapter(clientPromise),
@@ -19,11 +20,11 @@ export const authOptions = {
     }),
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
-      name: "Credentials",
+      name: "credentials",
       id: "credentials",
 
       credentials: {
-        email: {
+        username: {
           label: "Email",
           type: "email",
           placeholder: "test@example.com",
@@ -33,11 +34,10 @@ export const authOptions = {
       async authorize(credentials, req) {
         const email = credentials?.email;
         const password = credentials?.password;
-
         mongoose.connect(process.env.MONGO_URL);
         const user = await User.findOne({ email });
         const passwordOk = user && bcrypt.compareSync(password, user.password);
-
+        console.log(passwordOk);
         if (passwordOk) {
           return user;
         }
