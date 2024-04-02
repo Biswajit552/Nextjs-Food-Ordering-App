@@ -66,7 +66,9 @@ export default function MenuItemForm({ onSubmit, menuItem }) {
           >
             {categories?.length > 0 &&
               categories.map((category) => (
-                <option value={category._id}>{category.name}</option>
+                <option key={category._id} value={category._id}>
+                  {category.name}
+                </option>
               ))}
           </select>
           <label>Base Price</label>
