@@ -3,7 +3,7 @@ import EditableImage from "../../components/layout/EditableImage";
 import Trash from "../../components/icons/Trash";
 import Plus from "../../components/icons/Plus";
 import { MenuItem } from "../../models/MenuItem";
-import MenuItemPriceProps from "../../components/layout/MenuItemPriceProps";
+import MenuItemPriceProps from "../layout/menuItemPriceProps";
 
 export default function MenuItemForm({ onSubmit, menuItem }) {
   const [name, setName] = useState(menuItem?.name || "");
