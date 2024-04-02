@@ -11,7 +11,7 @@ import { UserInfo } from "../../../../models/UserInfo";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 export const authOptions = {
   secret: process.env.SECRET,
-  adapter: MongoDBAdapter(clientPromise),
+  // adapter: MongoDBAdapter(clientPromise),
 
   providers: [
     GoogleProvider({
@@ -39,6 +39,7 @@ export const authOptions = {
         const passwordOk = user && bcrypt.compareSync(password, user.password);
         console.log(passwordOk);
         if (passwordOk) {
+          console.log(user);
           return user;
         }
         // Return null if user data could not be retrieved

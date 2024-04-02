@@ -8,6 +8,7 @@ export async function POST(req) {
   mongoose.connect(process.env.MONGO_URL);
 
   const { cartProducts, address } = await req.json();
+  // console.log(address);
   const session = await getServerSession(authOptions);
   const userEmail = session?.user?.email;
 
@@ -45,7 +46,7 @@ export async function POST(req) {
     stripeLineItems.push({
       quantity: 1,
       price_data: {
-        currency: "INR",
+        currency: "inr",
         product_data: {
           name: productName,
         },
@@ -55,9 +56,12 @@ export async function POST(req) {
   }
 
   const stripeSession = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+
     line_items: stripeLineItems,
     mode: "payment",
     customer_email: userEmail,
+
     success_url:
       process.env.NEXTAUTH_URL +
       "orders/" +
@@ -73,7 +77,7 @@ export async function POST(req) {
         shipping_rate_data: {
           display_name: "Delivery fee",
           type: "fixed_amount",
-          fixed_amount: { amount: 500, currency: "INR" },
+          fixed_amount: { amount: 0, currency: "inr" },
         },
       },
     ],

@@ -39,6 +39,7 @@ function AuthLinks({ status, userName }) {
 
 export default function Header() {
   const session = useSession();
+  console.log(session);
   const status = session?.status;
   const userData = session.data?.user;
   let userName = userData?.name || userData?.email;
