@@ -4,11 +4,11 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 // import { MongoDBAdapter } from "@auth/mongodb-adapter";
 
-import { User } from "../../../../models/user";
-import clientPromise from "../../../../libs/mongoConnect";
+import { User } from "../../../../models/User";
+// import clientPromise from "../../../../libs/mongoConnect";
 import bcrypt from "bcrypt";
 import { UserInfo } from "../../../../models/UserInfo";
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
+// import { MongoDBAdapter } from "@auth/mongodb-adapter";
 export const authOptions = {
   secret: process.env.SECRET,
   // adapter: MongoDBAdapter(clientPromise),

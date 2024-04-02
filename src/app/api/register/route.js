@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { User } from "../../../models/user";
+import { User } from "../../../models/User";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 dotenv.config({ path: "../../../.env" });
